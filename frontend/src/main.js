@@ -32,6 +32,16 @@ import "@ionic/vue/css/core.css"
 import "./theme/variables.css"
 
 import "./main.css"
+import "./theme/dark.css"
+
+const colorScheme = window.matchMedia("(prefers-color-scheme: dark)")
+function applySystemTheme() {
+	const dark = colorScheme.matches
+	document.documentElement.style.colorScheme = dark ? "dark" : "light"
+	document.querySelector('meta[name="theme-color"]')?.setAttribute("content", dark ? "#111827" : "#ffffff")
+}
+applySystemTheme()
+colorScheme.addEventListener("change", applySystemTheme)
 
 const app = createApp(App)
 const socket = initSocket()

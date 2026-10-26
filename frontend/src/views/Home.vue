@@ -8,7 +8,6 @@
 				</div>
 				<div class="flex flex-col items-center gap-7 min-w-0">
 					<QuickLinks :items="quickLinks" :title="__('Quick Links')" />
-					<RequestPanel />
 				</div>
 			</div>
 		</template>
@@ -16,14 +15,14 @@
 </template>
 
 <script setup>
-import { inject, markRaw, onBeforeUnmount, ref } from "vue"
+import { computed, inject, markRaw, onBeforeUnmount, ref } from "vue"
 import { onIonViewWillEnter, onIonViewWillLeave } from "@ionic/vue"
+import { createResource } from "frappe-ui"
 
 import CheckInPanel from "@/components/CheckInPanel.vue"
 import HoursSummary from "@/components/HoursSummary.vue"
 import QuickLinks from "@/components/QuickLinks.vue"
 import BaseLayout from "@/components/BaseLayout.vue"
-import RequestPanel from "@/components/RequestPanel.vue"
 import AttendanceIcon from "@/components/icons/AttendanceIcon.vue"
 import ShiftIcon from "@/components/icons/ShiftIcon.vue"
 import LeaveIcon from "@/components/icons/LeaveIcon.vue"
@@ -32,13 +31,26 @@ import EmployeeAdvanceIcon from "@/components/icons/EmployeeAdvanceIcon.vue"
 import SalaryIcon from "@/components/icons/SalaryIcon.vue"
 import TeamIcon from "@/components/icons/TeamIcon.vue"
 import ProjectIcon from "@/components/icons/ProjectIcon.vue"
+import { typeBadges } from "@/utils/dayKinds"
 
 const __ = inject("$translate")
 const hours = ref(null)
 let refreshTimer = null
 
+const pendingApprovals = createResource({
+	url: "hr_addon.api.approvals.get_pending_requests",
+	auto: true,
+})
+
+const myRequests = createResource({
+	url: "hr_addon.api.my_requests.get_my_requests",
+	auto: true,
+})
+
 function refreshHours() {
 	hours.value?.reload()
+	pendingApprovals.reload()
+	myRequests.reload()
 }
 
 function onVisible() {
@@ -66,7 +78,7 @@ onBeforeUnmount(() => {
 	clearInterval(refreshTimer)
 })
 
-const quickLinks = [
+const quickLinks = computed(() => [
 	{
 		icon: markRaw(ProjectIcon),
 		title: __("Project hours"),
@@ -76,6 +88,18 @@ const quickLinks = [
 		icon: markRaw(TeamIcon),
 		title: __("Team Calendar"),
 		route: "TeamCalendarView",
+	},
+	{
+		icon: markRaw(LeaveIcon),
+		title: __("Approvals"),
+		route: "ApprovalsView",
+		badges: typeBadges(pendingApprovals.data || []),
+	},
+	{
+		icon: markRaw(LeaveIcon),
+		title: __("My requests"),
+		route: "MyRequestsView",
+		badges: typeBadges((myRequests.data || []).filter((row) => row.editable)),
 	},
 	{
 		icon: markRaw(AttendanceIcon),
@@ -107,5 +131,5 @@ const quickLinks = [
 		title: __("View Salary Slips"),
 		route: "SalarySlipsDashboard",
 	},
-]
+])
 </script>

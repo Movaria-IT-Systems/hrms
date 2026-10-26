@@ -69,6 +69,16 @@ const routes = [
 		component: () => import("@/views/attendance/TeamCalendar.vue"),
 	},
 	{
+		name: "ApprovalsView",
+		path: "/approvals",
+		component: () => import("@/views/attendance/Approvals.vue"),
+	},
+	{
+		name: "MyRequestsView",
+		path: "/my-requests",
+		component: () => import("@/views/attendance/MyRequests.vue"),
+	},
+	{
 		name: "ProjectHoursView",
 		path: "/project-hours",
 		component: () => import("@/views/attendance/ProjectHours.vue"),

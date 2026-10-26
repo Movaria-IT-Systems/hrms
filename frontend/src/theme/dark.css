@@ -1,0 +1,273 @@
+/* Same dark system as the MPH task boards: gray-900 chrome, #10141a wash,
+   the blue and rose light from My tasks, and #171717 panels. */
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		color-scheme: dark;
+		--ion-background-color: #10141a;
+		--ion-background-color-rgb: 16, 20, 26;
+		--ion-text-color: #f4f4f5;
+		--ion-text-color-rgb: 244, 244, 245;
+		--ion-tab-bar-background: #1f2937;
+		--ion-tab-bar-color: #9ca3af;
+		--ion-tab-bar-color-selected: #ffffff;
+		--ion-tab-bar-background-focused: #1f2937;
+		--ion-toolbar-background: #111827;
+		--ion-toolbar-color: #f4f4f5;
+		--ion-item-background: #171717;
+		--ion-item-color: #f4f4f5;
+		--ion-card-background: #171717;
+		--ion-border-color: #3a3a3a;
+	}
+
+	body,
+	ion-app {
+		background: #111827;
+		color: #f4f4f5;
+	}
+
+	ion-header,
+	ion-header.app-shell-header,
+	ion-toolbar {
+		--background: #111827;
+		--color: #f4f4f5;
+		background: #111827;
+		color: #f4f4f5;
+	}
+
+	ion-content,
+	ion-content.app-shell-content {
+		--background: #10141a;
+		--color: #f4f4f5;
+	}
+
+	/* BoardCanvas spots from the task timeline: #7eb6e8 and #f0b4bc. */
+	ion-content .app-shell {
+		background:
+			radial-gradient(ellipse 62% 70% at -6% -8%, rgba(126, 182, 232, 0.34), transparent 68%),
+			radial-gradient(ellipse 68% 78% at 108% 12%, rgba(240, 180, 188, 0.28), transparent 66%),
+			radial-gradient(ellipse 72% 64% at 28% 112%, rgba(126, 182, 232, 0.22), transparent 64%),
+			radial-gradient(ellipse 46% 46% at 48% 42%, rgba(240, 180, 188, 0.16), transparent 70%),
+			#10141a;
+		color: #f4f4f5;
+	}
+
+	ion-header .app-shell {
+		background: #111827;
+		color: #f4f4f5;
+	}
+
+	/* MPH footer: gray-800, gray-700 edge, gray-400 labels, white when selected. */
+	ion-tab-bar.app-shell,
+	ion-tab-button {
+		--background: #1f2937;
+		--border: 1px solid #374151;
+		--color: #9ca3af;
+		--color-selected: #ffffff;
+		background: #1f2937;
+		border-color: #374151;
+	}
+
+	/* Timeline frame is #171717. Header and tabs stay the gray-900 bar. */
+	html .bg-white,
+	html .hover\:bg-white:hover {
+		background-color: #171717;
+	}
+	html ion-header .bg-white,
+	html ion-header .hover\:bg-white:hover {
+		background-color: #111827;
+	}
+	html ion-tab-bar,
+	html ion-tab-button,
+	html ion-tab-bar.bg-white,
+	html ion-tab-button.bg-white,
+	html ion-tab-bar.dark\:bg-gray-800,
+	html ion-tab-button.dark\:bg-gray-800 {
+		background-color: #1f2937;
+	}
+	html ion-tab-bar.border-t {
+		border-top-color: #374151;
+	}
+	html ion-tab-button.text-gray-500,
+	html ion-tab-button.dark\:text-gray-400 {
+		color: #9ca3af;
+	}
+	html ion-tab-button.text-gray-900,
+	html ion-tab-button.dark\:text-white {
+		color: #ffffff;
+	}
+
+	html .bg-gray-50 {
+		background-color: #202020;
+	}
+	html .bg-gray-100 {
+		background-color: #2a2a2a;
+	}
+	html .bg-gray-200 {
+		background-color: #333333;
+	}
+
+	html .text-gray-900 {
+		color: #fafafa;
+	}
+	html .text-gray-800 {
+		color: #f4f4f5;
+	}
+	html .text-gray-700 {
+		color: #e4e4e7;
+	}
+	html .text-gray-600 {
+		color: #d4d4d8;
+	}
+	html .text-gray-500,
+	html .text-gray-400 {
+		color: #a1a1aa;
+	}
+
+	html .border-b,
+	html .border-t,
+	html .border-gray-100,
+	html .border-gray-200 {
+		border-color: #3a3a3a;
+	}
+	html .border-gray-300,
+	html .border-gray-400 {
+		border-color: #4b5563;
+	}
+
+	ion-content .rounded.bg-white,
+	ion-content .rounded-xl.bg-white,
+	ion-content .rounded-2xl.bg-white {
+		box-shadow: inset 0 0 0 1px #2e2e2e;
+	}
+
+	/* Forecast-style status cells: a tinted fill, a bright edge, light text. */
+	html .bg-green-50,
+	html .bg-green-100,
+	html .bg-green-200 {
+		background-color: rgba(16, 185, 129, 0.55);
+	}
+	html .text-green-700,
+	html .text-green-800,
+	html .text-green-900 {
+		color: #d1fae5;
+	}
+	html .border-green-200,
+	html .border-green-300,
+	html .border-green-400 {
+		border-color: rgba(52, 211, 153, 0.75);
+	}
+
+	html .bg-orange-50,
+	html .bg-orange-100,
+	html .bg-orange-200 {
+		background-color: rgba(245, 158, 11, 0.58);
+	}
+	html .text-orange-700,
+	html .text-orange-800,
+	html .text-orange-900 {
+		color: #fef3c7;
+	}
+	html .border-orange-200,
+	html .border-orange-300,
+	html .border-orange-400 {
+		border-color: rgba(245, 158, 11, 0.8);
+	}
+
+	html .bg-red-50,
+	html .bg-red-100,
+	html .bg-red-200 {
+		background-color: rgba(239, 68, 68, 0.58);
+	}
+	html .text-red-700,
+	html .text-red-800,
+	html .text-red-900 {
+		color: #fee2e2;
+	}
+	html .border-red-200,
+	html .border-red-300,
+	html .border-red-400,
+	html .border-red-700 {
+		border-color: rgba(248, 113, 113, 0.85);
+	}
+	html .bg-surface-red-2,
+	html .bg-surface-red-3,
+	html .bg-surface-red-4 {
+		background-color: rgba(239, 68, 68, 0.4);
+	}
+
+	html .bg-blue-50,
+	html .bg-blue-100,
+	html .bg-blue-200 {
+		background-color: rgba(59, 130, 246, 0.58);
+	}
+	html .text-blue-700,
+	html .text-blue-800,
+	html .text-blue-900 {
+		color: #dbeafe;
+	}
+	html .border-blue-200,
+	html .border-blue-300,
+	html .border-blue-400,
+	html .border-blue-700 {
+		border-color: rgba(96, 165, 250, 0.85);
+	}
+
+	html .bg-purple-50,
+	html .bg-purple-100,
+	html .bg-purple-200 {
+		background-color: rgba(168, 85, 247, 0.55);
+	}
+	html .text-purple-700,
+	html .text-purple-800,
+	html .text-purple-900 {
+		color: #f3e8ff;
+	}
+	html .border-purple-200,
+	html .border-purple-300,
+	html .border-purple-400,
+	html .border-purple-700 {
+		border-color: rgba(192, 132, 252, 0.8);
+	}
+
+	html .ring-offset-2 {
+		--tw-ring-offset-color: #10141a;
+	}
+
+	html input[type="text"],
+	html input[type="email"],
+	html input[type="url"],
+	html input[type="password"],
+	html input[type="number"],
+	html input[type="date"],
+	html input[type="datetime-local"],
+	html input[type="month"],
+	html input[type="search"],
+	html input[type="tel"],
+	html input[type="time"],
+	html input[type="week"],
+	html textarea,
+	html select {
+		background-color: #111827;
+		color: #f4f4f5;
+		border-color: #4b5563;
+		color-scheme: dark;
+	}
+	html input[type="date"]::-webkit-calendar-picker-indicator {
+		filter: invert(1);
+	}
+}
+
+@media (prefers-color-scheme: dark) and (min-width: 640px) {
+	ion-app,
+	ion-header,
+	ion-header.app-shell-header {
+		--background: #111827;
+		background: #111827;
+	}
+
+	ion-content,
+	ion-content.app-shell-content {
+		--background: #10141a;
+	}
+}

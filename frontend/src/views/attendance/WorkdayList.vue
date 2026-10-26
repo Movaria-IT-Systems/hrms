@@ -414,16 +414,16 @@ function cellClass(day) {
 	const request = requestOnDay(day)
 	if (request) return requestClass(request.kind, request.pending)
 	const tone = {
-		Present: "bg-green-100 text-green-900",
-		"Half Day": "bg-green-50 text-green-800",
-		Missing: "bg-orange-100 text-orange-900",
-		"Missing Checkin": "bg-orange-100 text-orange-900",
-		Absent: "bg-orange-100 text-orange-900",
-		Holiday: "bg-gray-200 text-gray-600",
-		Open: "bg-white text-gray-800 border border-gray-200",
-		Off: "bg-gray-50 text-gray-600 border border-dashed border-gray-300",
-		"Not Workday": "bg-gray-50 text-gray-600 border border-dashed border-gray-300",
-	}[day.status] || "bg-white text-gray-800 border border-gray-200"
+		Present: "bg-green-100 text-green-900 border border-green-300",
+		"Half Day": "bg-green-50 text-green-800 border border-green-300",
+		Missing: "bg-orange-100 text-orange-900 border border-orange-300",
+		"Missing Checkin": "bg-orange-100 text-orange-900 border border-orange-300",
+		Absent: "bg-orange-100 text-orange-900 border border-orange-300",
+		Holiday: "bg-gray-200 text-gray-700 border border-gray-400",
+		Open: "bg-gray-100 text-gray-900 border border-gray-400",
+		Off: "bg-gray-50 text-gray-600 border border-dashed border-gray-400",
+		"Not Workday": "bg-gray-50 text-gray-600 border border-dashed border-gray-400",
+	}[day.status] || "bg-gray-100 text-gray-900 border border-gray-400"
 	return tone
 }
 

@@ -10,9 +10,16 @@
 
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-title" content="Movaria HR" />
-		<meta name="apple-mobile-web-app-status-bar-style" content="white" />
-		<!-- required for setting the status bar bg as white -->
+		<meta name="apple-mobile-web-app-status-bar-style" content="default" />
 		<meta name="theme-color" content="#fff" />
+		<script>
+			;(function () {
+				var dark = window.matchMedia("(prefers-color-scheme: dark)").matches
+				var theme = document.querySelector('meta[name="theme-color"]')
+				if (theme) theme.setAttribute("content", dark ? "#111827" : "#ffffff")
+				document.documentElement.style.colorScheme = dark ? "dark" : "light"
+			})()
+		</script>
 
 		<!-- PWA -->
 		<link

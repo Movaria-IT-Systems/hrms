@@ -74,3 +74,10 @@ body {
 		background: #fff;
 	}
 }
+
+.brand-bar,
+ion-header.app-shell-header:has(.brand-bar) {
+	--background: #111827;
+	background: #111827;
+	color: #fff;
+}

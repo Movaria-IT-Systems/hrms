@@ -2,23 +2,39 @@
 // personal workday calendar and the team calendar.
 export const REQUEST_STYLES = {
 	leave: {
-		solid: "bg-blue-100 text-blue-900",
+		solid: "bg-blue-100 text-blue-900 border border-blue-300",
 		soft: "bg-blue-50 text-blue-800",
 		border: "border-blue-400",
 		icon: "sun",
 	},
 	sick: {
-		solid: "bg-red-100 text-red-900",
+		solid: "bg-red-100 text-red-900 border border-red-300",
 		soft: "bg-red-50 text-red-800",
 		border: "border-red-400",
 		icon: "thermometer",
 	},
 	home: {
-		solid: "bg-purple-100 text-purple-900",
+		solid: "bg-purple-100 text-purple-900 border border-purple-300",
 		soft: "bg-purple-50 text-purple-800",
 		border: "border-purple-400",
 		icon: "home",
 	},
+}
+
+export const KIND_BADGE = {
+	leave: "bg-blue-100 text-blue-900",
+	sick: "bg-red-100 text-red-900",
+	home: "bg-purple-100 text-purple-900",
+	all: "bg-gray-200 text-gray-800",
+}
+
+const KIND_ORDER = ["leave", "sick", "home"]
+
+export function typeBadges(rows) {
+	return KIND_ORDER.map((kind) => ({
+		kind,
+		count: rows.filter((row) => row.kind === kind).length,
+	})).filter((badge) => badge.count > 0)
 }
 
 export const PENDING_BORDER = "border-2 border-dashed"

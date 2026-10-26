@@ -15,6 +15,14 @@
 						{{ link.title }}
 					</div>
 				</div>
+				<span v-if="link.badges?.length" class="mr-2 inline-flex items-center gap-1">
+					<KindBadge
+						v-for="badge in link.badges"
+						:key="badge.kind"
+						:kind="badge.kind"
+						:count="badge.count"
+					/>
+				</span>
 				<FeatherIcon name="chevron-right" class="h-5 w-5 text-gray-500" />
 			</router-link>
 		</div>
@@ -23,6 +31,8 @@
 
 <script setup>
 import { FeatherIcon } from "frappe-ui"
+
+import KindBadge from "@/components/KindBadge.vue"
 
 const props = defineProps({
 	title: {

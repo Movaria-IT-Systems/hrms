@@ -31,9 +31,12 @@
 				</div>
 			</div>
 
-			<div v-else class="flex h-screen w-screen flex-col justify-center bg-white">
+			<div v-else class="flex h-screen w-screen flex-col bg-white">
+				<header class="brand-bar -mx-4 -mt-4 flex items-center px-4 py-3">
+					<Wordmark class="h-7 mix-blend-screen sm:h-8" />
+				</header>
+				<div class="flex flex-1 flex-col justify-center">
 				<div class="flex flex-col mx-auto gap-3 items-center">
-					<FrappeHRLogo class="h-8 w-8" />
 					<div class="text-3xl font-semibold text-gray-900 text-center">
 						{{ __("Login to Movaria HR") }}
 					</div>
@@ -90,6 +93,7 @@
 
 					<div v-else-if="user_pass_login_disabled.data" class="text-center text-gray-600 py-8">{{ __("No login methods are available. Please contact your administrator.") }}</div>
 				</div>
+				</div>
 			</div>
 			<Dialog v-model="otp.showDialog">
 				<template #body-title>
@@ -128,7 +132,7 @@ import { IonPage, IonContent } from "@ionic/vue"
 import { inject, reactive, ref } from "vue"
 import { Input, Button, ErrorMessage, Dialog, createResource } from "frappe-ui"
 
-import FrappeHRLogo from "@/components/icons/FrappeHRLogo.vue"
+import Wordmark from "@/components/Wordmark.vue"
 
 const email = ref(null)
 const password = ref(null)
