@@ -112,7 +112,7 @@
 									class="text-sm sm:text-base font-semibold leading-none"
 									:class="
 										isToday(cell)
-											? 'inline-flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full bg-blue-600 text-white'
+											? 'inline-flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full bg-blue-600 text-white ring-2 ring-white'
 											: ''
 									"
 								>

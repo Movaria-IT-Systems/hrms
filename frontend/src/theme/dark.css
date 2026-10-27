@@ -233,6 +233,10 @@
 	html .ring-offset-2 {
 		--tw-ring-offset-color: #10141a;
 	}
+	/* frappe gray-900 is #171717, the same black as the calendar panel. */
+	html .ring-gray-900 {
+		--tw-ring-color: #f4f4f5;
+	}
 
 	html input[type="text"],
 	html input[type="email"],
