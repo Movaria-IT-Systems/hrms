@@ -31,6 +31,7 @@ import EmployeeAdvanceIcon from "@/components/icons/EmployeeAdvanceIcon.vue"
 import SalaryIcon from "@/components/icons/SalaryIcon.vue"
 import TeamIcon from "@/components/icons/TeamIcon.vue"
 import ProjectIcon from "@/components/icons/ProjectIcon.vue"
+import InsightsIcon from "@/components/icons/InsightsIcon.vue"
 import { typeBadges } from "@/utils/dayKinds"
 
 const __ = inject("$translate")
@@ -79,6 +80,11 @@ onBeforeUnmount(() => {
 })
 
 const quickLinks = computed(() => [
+	{
+		icon: markRaw(InsightsIcon),
+		title: __("Insights"),
+		route: "InsightsView",
+	},
 	{
 		icon: markRaw(ProjectIcon),
 		title: __("Project hours"),

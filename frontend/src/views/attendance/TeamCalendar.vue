@@ -66,7 +66,7 @@
 							<thead>
 								<tr>
 									<th
-										class="sticky left-0 z-20 bg-white min-w-56 max-w-72 px-4 py-3 text-left text-sm font-semibold text-gray-600 border-b border-gray-200"
+										class="sticky left-0 z-20 bg-white min-w-56 max-w-72 px-4 py-3 text-left text-sm font-semibold text-gray-800 border-b border-[#c8c8c8]"
 									>
 										{{ __("Member") }}
 									</th>
@@ -74,26 +74,20 @@
 										v-for="date in dates"
 										:key="date.key"
 										:data-today="date.isToday || undefined"
-										class="px-0.5 py-2 font-medium border-b border-gray-200 text-center"
+										class="px-0.5 py-3 font-bold border-b border-[#c8c8c8] text-center text-[16px] leading-none"
 										:class="[
-											date.isToday ? 'text-blue-700' : 'text-gray-600',
-											date.isWeekend ? 'bg-gray-50 team-weekend' : 'bg-white',
+											date.isToday ? 'text-blue-700' : 'text-gray-800',
+											date.isWeekend ? 'bg-[#e4e7ee] team-weekend' : 'bg-white',
 										]"
 									>
-										<div class="text-[12px] leading-none font-medium">{{ date.weekday }}</div>
-										<div
-											class="mt-1 mx-auto h-7 w-7 leading-7 rounded-full text-[15px] font-semibold"
-											:class="date.isToday ? 'bg-blue-600 text-white' : ''"
-										>
-											{{ date.day }}
-										</div>
+										{{ date.weekday }}
 									</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr v-for="member in members" :key="member.employee" :class="member.is_me ? 'bg-amber-50/40 team-me' : ''">
+								<tr v-for="member in members" :key="member.employee" :class="member.is_me ? 'team-me' : ''">
 									<td
-										class="sticky left-0 z-10 min-w-56 max-w-72 px-4 py-2.5 border-b border-gray-200"
+										class="sticky left-0 z-10 min-w-56 max-w-72 px-4 py-2.5 border-b border-[#c8c8c8]"
 										:class="member.is_me ? 'bg-amber-50 team-me' : 'bg-white'"
 									>
 										<div class="truncate text-[17px] font-semibold text-gray-900 leading-tight" :title="member.employee_name">
@@ -106,8 +100,8 @@
 									<td
 										v-for="(cell, index) in member.days"
 										:key="cell.date"
-										class="px-0.5 py-2 border-b border-gray-200 text-center"
-										:class="dates[index]?.isWeekend && !member.is_me ? 'bg-gray-50 team-weekend' : ''"
+										class="px-0.5 py-2 border-b border-[#c8c8c8] text-center"
+										:class="dates[index]?.isWeekend ? 'bg-[#e4e7ee] team-weekend' : 'bg-white'"
 									>
 										<button
 											type="button"
@@ -124,6 +118,13 @@
 										>
 											<FeatherIcon v-if="icon(cell)" :name="icon(cell)" class="h-3.5 w-3.5" />
 											<span v-else-if="cell.half_day" class="text-[10px] font-semibold">½</span>
+											<span
+												v-else
+												class="text-[13px] font-semibold tabular-nums leading-none"
+												:class="dayNumberClass(cell, dates[index])"
+											>
+												{{ dates[index]?.day }}
+											</span>
 										</button>
 									</td>
 								</tr>
@@ -144,7 +145,7 @@
 					</Button>
 				</div>
 
-				<div class="flex flex-wrap gap-x-4 gap-y-2 px-1 text-[13px] text-gray-600">
+				<div class="flex flex-wrap gap-x-4 gap-y-2 px-1 text-[13px] text-gray-800">
 					<span v-for="item in legend" :key="item.kind" class="inline-flex items-center gap-1.5">
 						<span class="h-4 w-4 rounded flex items-center justify-center" :class="item.tone">
 							<FeatherIcon v-if="item.icon" :name="item.icon" class="h-2.5 w-2.5" />
@@ -250,8 +251,8 @@ const KINDS = {
 	sick: { tone: "bg-red-100 text-red-800", icon: "thermometer", label: __("Sick") },
 	holiday: { tone: "bg-gray-200 text-gray-600", icon: "gift", label: __("Holiday") },
 	missing: { tone: "bg-orange-100 text-orange-800", icon: "alert-circle", label: __("Not recorded") },
-	open: { tone: "bg-white border border-gray-400 team-open", icon: null, label: __("Planned workday") },
-	free: { tone: "border border-gray-300 team-free", icon: null, label: __("Free day") },
+	open: { tone: "bg-white border-2 border-[#5c5c5c] team-open", icon: null, label: __("Planned workday") },
+	free: { tone: "bg-[#f4f4f5] border border-[#8a8a8a] team-free", icon: null, label: __("Free day") },
 }
 
 const PENDING_BORDERS = {
@@ -381,6 +382,14 @@ function cellClass(cell) {
 
 function icon(cell) {
 	return (KINDS[cell.kind] || KINDS.free).icon
+}
+
+function dayNumberClass(cell, date) {
+	if (date?.isToday) {
+		return "inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-white"
+	}
+	if (cell.kind === "work") return ""
+	return "text-gray-800"
 }
 
 function describe(cell) {
