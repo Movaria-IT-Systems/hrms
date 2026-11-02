@@ -62,11 +62,11 @@
 						{{ __("No employees found") }}
 					</div>
 					<div v-else ref="scroller" class="overflow-x-auto select-none">
-						<table class="border-separate border-spacing-0 text-xs w-full">
+						<table class="border-separate border-spacing-0 text-sm w-full">
 							<thead>
 								<tr>
 									<th
-										class="sticky left-0 z-20 bg-white min-w-40 max-w-40 px-3 py-2 text-left font-medium text-gray-500 border-b"
+										class="sticky left-0 z-20 bg-white min-w-56 max-w-72 px-4 py-3 text-left text-sm font-semibold text-gray-600 border-b border-gray-200"
 									>
 										{{ __("Member") }}
 									</th>
@@ -74,15 +74,15 @@
 										v-for="date in dates"
 										:key="date.key"
 										:data-today="date.isToday || undefined"
-										class="px-0.5 py-1.5 font-medium border-b text-center"
+										class="px-0.5 py-2 font-medium border-b border-gray-200 text-center"
 										:class="[
-											date.isToday ? 'text-blue-700' : 'text-gray-500',
-											date.isWeekend ? 'bg-gray-50' : 'bg-white',
+											date.isToday ? 'text-blue-700' : 'text-gray-600',
+											date.isWeekend ? 'bg-gray-50 team-weekend' : 'bg-white',
 										]"
 									>
-										<div class="text-[10px] leading-none">{{ date.weekday }}</div>
+										<div class="text-[12px] leading-none font-medium">{{ date.weekday }}</div>
 										<div
-											class="mt-1 mx-auto h-6 w-6 leading-6 rounded-full text-xs"
+											class="mt-1 mx-auto h-7 w-7 leading-7 rounded-full text-[15px] font-semibold"
 											:class="date.isToday ? 'bg-blue-600 text-white' : ''"
 										>
 											{{ date.day }}
@@ -91,29 +91,29 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr v-for="member in members" :key="member.employee" :class="member.is_me ? 'bg-amber-50/40' : ''">
+								<tr v-for="member in members" :key="member.employee" :class="member.is_me ? 'bg-amber-50/40 team-me' : ''">
 									<td
-										class="sticky left-0 z-10 min-w-40 max-w-40 px-3 py-1.5 border-b"
-										:class="member.is_me ? 'bg-amber-50' : 'bg-white'"
+										class="sticky left-0 z-10 min-w-56 max-w-72 px-4 py-2.5 border-b border-gray-200"
+										:class="member.is_me ? 'bg-amber-50 team-me' : 'bg-white'"
 									>
-										<div class="truncate text-sm font-medium text-gray-900">
+										<div class="truncate text-[17px] font-semibold text-gray-900 leading-tight" :title="member.employee_name">
 											{{ member.employee_name }}
 										</div>
-										<div class="truncate text-[11px]" :class="member.is_me ? 'text-amber-700 font-medium' : 'text-gray-500'">
+										<div class="truncate text-[13px] mt-0.5" :class="member.is_me ? 'text-amber-800 font-medium team-me-note' : 'text-gray-600'">
 											{{ member.is_me ? __("You · tap days to plan") : member.department || member.designation || "" }}
 										</div>
 									</td>
 									<td
 										v-for="(cell, index) in member.days"
 										:key="cell.date"
-										class="px-0.5 py-1.5 border-b text-center"
-										:class="dates[index]?.isWeekend && !member.is_me ? 'bg-gray-50' : ''"
+										class="px-0.5 py-2 border-b border-gray-200 text-center"
+										:class="dates[index]?.isWeekend && !member.is_me ? 'bg-gray-50 team-weekend' : ''"
 									>
 										<button
 											type="button"
-											class="h-8 w-8 min-w-8 mx-auto rounded-md flex items-center justify-center"
+											class="h-9 w-9 min-w-9 mx-auto rounded-md flex items-center justify-center"
 											:class="[
-												member.is_me && inRange(cell.date) ? 'bg-gray-900 text-white' : cellClass(cell),
+												member.is_me && inRange(cell.date) ? 'bg-[#111827] text-white dark:bg-[#f4f4f5] dark:text-[#111827]' : cellClass(cell),
 												!member.is_me && isSelected(member, cell) ? 'ring-2 ring-gray-900' : '',
 												member.is_me ? 'cursor-pointer hover:ring-2 hover:ring-gray-300' : '',
 											]"
@@ -144,7 +144,7 @@
 					</Button>
 				</div>
 
-				<div class="flex flex-wrap gap-x-4 gap-y-2 px-1 text-xs text-gray-600">
+				<div class="flex flex-wrap gap-x-4 gap-y-2 px-1 text-[13px] text-gray-600">
 					<span v-for="item in legend" :key="item.kind" class="inline-flex items-center gap-1.5">
 						<span class="h-4 w-4 rounded flex items-center justify-center" :class="item.tone">
 							<FeatherIcon v-if="item.icon" :name="item.icon" class="h-2.5 w-2.5" />
@@ -250,8 +250,8 @@ const KINDS = {
 	sick: { tone: "bg-red-100 text-red-800", icon: "thermometer", label: __("Sick") },
 	holiday: { tone: "bg-gray-200 text-gray-600", icon: "gift", label: __("Holiday") },
 	missing: { tone: "bg-orange-100 text-orange-800", icon: "alert-circle", label: __("Not recorded") },
-	open: { tone: "bg-white border border-gray-200", icon: null, label: __("Planned workday") },
-	free: { tone: "bg-transparent", icon: null, label: __("Free day") },
+	open: { tone: "bg-white border border-gray-400 team-open", icon: null, label: __("Planned workday") },
+	free: { tone: "border border-gray-300 team-free", icon: null, label: __("Free day") },
 }
 
 const PENDING_BORDERS = {

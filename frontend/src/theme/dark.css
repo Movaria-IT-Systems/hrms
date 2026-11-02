@@ -260,6 +260,28 @@
 	html input[type="date"]::-webkit-calendar-picker-indicator {
 		filter: invert(1);
 	}
+
+	/* Team calendar: names stay on a dark row, weekends and empty days stay visible. */
+	html tr.team-me {
+		background-color: rgba(96, 165, 250, 0.1);
+	}
+	html td.team-me {
+		background-color: #1c2836;
+	}
+	html .team-me-note {
+		color: #f6d7a2;
+	}
+	html .team-weekend {
+		background-color: #242a33;
+	}
+	html .team-free {
+		background-color: #1a1e24;
+		border-color: #6b7280;
+	}
+	html .team-open {
+		background-color: #2a303a;
+		border-color: #d1d5db;
+	}
 }
 
 @media (prefers-color-scheme: dark) and (min-width: 640px) {
