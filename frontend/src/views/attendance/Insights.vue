@@ -15,17 +15,35 @@
 		</ion-header>
 		<ion-content class="app-shell-content">
 			<div class="flex flex-col min-h-full w-full app-shell p-4 gap-4">
-				<div class="flex gap-2">
+				<div class="flex flex-wrap gap-2">
 					<button
 						v-for="option in spans"
 						:key="option.value"
 						type="button"
-						class="flex-1 rounded-full px-3 py-2 text-sm font-semibold border"
+						class="rounded-full px-3 py-2 text-sm font-semibold border"
 						:class="span === option.value ? 'border-blue-600 bg-blue-600 text-white' : 'border-[#c8c8c8] bg-white text-gray-800'"
 						@click="setSpan(option.value)"
 					>
 						{{ option.label }}
 					</button>
+				</div>
+				<div v-if="span === 'custom'" class="flex flex-wrap items-end gap-2">
+					<label class="flex flex-col gap-1 text-xs font-medium text-gray-600">
+						{{ __("From") }}
+						<input v-model="customFrom" type="date" class="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800" />
+					</label>
+					<label class="flex flex-col gap-1 text-xs font-medium text-gray-600">
+						{{ __("To") }}
+						<input v-model="customTo" type="date" class="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800" />
+					</label>
+					<button
+						type="button"
+						class="rounded-full border border-gray-900 bg-gray-900 px-4 py-2 text-sm font-semibold text-white"
+						@click="loadInsights"
+					>
+						{{ __("Show") }}
+					</button>
+					<p class="w-full text-xs text-gray-500">{{ __("Up to 366 days. A range longer than 62 days uses the compact year view.") }}</p>
 				</div>
 
 				<div v-if="insights.loading && !insights.data" class="text-sm text-gray-500 py-10 text-center">
@@ -321,23 +339,58 @@ const dayjs = inject("$dayjs")
 const router = useRouter()
 
 const span = ref("month")
+const customFrom = ref("")
+const customTo = ref("")
 const insights = createResource({
 	url: "hr_addon.api.insights.get_my_insights",
+	onSuccess(data) {
+		if (data?.span === "custom" && data.from_date && data.to_date) {
+			customFrom.value = data.from_date
+			customTo.value = data.to_date
+		}
+	},
 })
 
 const spans = computed(() => [
 	{ value: "week", label: __("Week") },
 	{ value: "month", label: __("Month") },
+	{ value: "days30", label: __("30 days") },
 	{ value: "year", label: __("Year") },
+	{ value: "custom", label: __("Custom") },
 ])
 
-function setSpan(value) {
-	if (span.value === value && insights.data) return
-	span.value = value
-	insights.submit({ span: value })
+const heatmap = computed(() => insights.data?.dense === false)
+
+function ensureCustomDates() {
+	if (customFrom.value && customTo.value) return
+	customTo.value = dayjs().format("YYYY-MM-DD")
+	customFrom.value = dayjs().subtract(29, "day").format("YYYY-MM-DD")
 }
 
-onIonViewWillEnter(() => insights.submit({ span: span.value }))
+function loadInsights() {
+	const payload = { span: span.value }
+	if (span.value === "custom") {
+		ensureCustomDates()
+		payload.from_date = customFrom.value
+		payload.to_date = customTo.value
+	}
+	insights.submit(payload)
+}
+
+function setSpan(value) {
+	if (span.value === value && value !== "custom" && insights.data) return
+	span.value = value
+	loadInsights()
+}
+
+onIonViewWillEnter(() => loadInsights())
+
+function rangeTitle(from, to) {
+	const start = dayjs(from)
+	const end = dayjs(to)
+	if (start.year() === end.year()) return `${start.format("D MMM")} – ${end.format("D MMM YYYY")}`
+	return `${start.format("D MMM YYYY")} – ${end.format("D MMM YYYY")}`
+}
 
 const spanTitle = computed(() => {
 	const data = insights.data
@@ -345,6 +398,7 @@ const spanTitle = computed(() => {
 	if (data.span === "week") {
 		return `${dayjs(data.from_date).format("D MMM")} – ${dayjs(data.to_date).format("D MMM")}`
 	}
+	if (data.span === "days30" || data.span === "custom") return rangeTitle(data.from_date, data.to_date)
 	if (data.span === "year") return dayjs(data.from_date).format("YYYY")
 	return dayjs(data.from_date).format("MMMM YYYY")
 })
@@ -510,13 +564,13 @@ const ticks = computed(() => {
 })
 
 const timelineCaption = computed(() => {
-	if (insights.data?.span === "year") return __("The year")
+	if (heatmap.value) return __("Each day")
 	return __("Checked-in time")
 })
 
 const yearMonths = computed(() => {
 	const data = insights.data
-	if (data?.span !== "year") return []
+	if (!heatmap.value) return []
 	const groups = []
 	const byMonth = new Map()
 	for (const day of data.timeline || []) {
@@ -661,7 +715,7 @@ function hourTick(value) {
 }
 
 function axisLabels(data, nodes, xOf, width) {
-	if (data?.span === "year" && data.from_date) {
+	if (data?.dense === false && data.from_date) {
 		const labels = []
 		let cursor = dayjs(data.from_date).startOf("month")
 		const end = dayjs(data.to_date)
@@ -688,13 +742,18 @@ function axisLabels(data, nodes, xOf, width) {
 }
 
 function axisLabel(date) {
-	if (insights.data?.span === "year") return dayjs(date).format("MMM")
-	if (insights.data?.span === "week") return dayjs(date).format("dd")
+	const data = insights.data
+	if (data?.dense === false) return dayjs(date).format("MMM")
+	if (data?.span === "week") return dayjs(date).format("dd")
+	if (data?.span === "custom") {
+		const days = dayjs(data.to_date).diff(dayjs(data.from_date), "day") + 1
+		if (days <= 10) return dayjs(date).format("dd")
+	}
 	return dayjs(date).format("D")
 }
 
 function showAxisLabel(index, count, isToday) {
-	if (insights.data?.span === "year") {
+	if (insights.data?.dense === false) {
 		const date = insights.data?.chart?.[index]?.date || ""
 		return date.slice(8, 10) === "01"
 	}

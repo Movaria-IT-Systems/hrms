@@ -32,6 +32,8 @@ import SalaryIcon from "@/components/icons/SalaryIcon.vue"
 import TeamIcon from "@/components/icons/TeamIcon.vue"
 import ProjectIcon from "@/components/icons/ProjectIcon.vue"
 import InsightsIcon from "@/components/icons/InsightsIcon.vue"
+import OrganigramIcon from "@/components/icons/OrganigramIcon.vue"
+import GuideIcon from "@/components/icons/GuideIcon.vue"
 import { typeBadges } from "@/utils/dayKinds"
 
 const __ = inject("$translate")
@@ -81,6 +83,23 @@ onBeforeUnmount(() => {
 
 const quickLinks = computed(() => [
 	{
+		icon: markRaw(LeaveIcon),
+		title: __("My requests"),
+		route: "MyRequestsView",
+		badges: typeBadges((myRequests.data || []).filter((row) => row.editable)),
+	},
+	{
+		icon: markRaw(LeaveIcon),
+		title: __("Approvals"),
+		route: "ApprovalsView",
+		badges: typeBadges(pendingApprovals.data || []),
+	},
+	{
+		icon: markRaw(TeamIcon),
+		title: __("Team Calendar"),
+		route: "TeamCalendarView",
+	},
+	{
 		icon: markRaw(InsightsIcon),
 		title: __("Insights"),
 		route: "InsightsView",
@@ -91,21 +110,9 @@ const quickLinks = computed(() => [
 		route: "ProjectHoursView",
 	},
 	{
-		icon: markRaw(TeamIcon),
-		title: __("Team Calendar"),
-		route: "TeamCalendarView",
-	},
-	{
 		icon: markRaw(LeaveIcon),
-		title: __("Approvals"),
-		route: "ApprovalsView",
-		badges: typeBadges(pendingApprovals.data || []),
-	},
-	{
-		icon: markRaw(LeaveIcon),
-		title: __("My requests"),
-		route: "MyRequestsView",
-		badges: typeBadges((myRequests.data || []).filter((row) => row.editable)),
+		title: __("Request Leave"),
+		route: "LeaveApplicationFormView",
 	},
 	{
 		icon: markRaw(AttendanceIcon),
@@ -116,11 +123,6 @@ const quickLinks = computed(() => [
 		icon: markRaw(ShiftIcon),
 		title: __("Request a Shift"),
 		route: "ShiftRequestFormView",
-	},
-	{
-		icon: markRaw(LeaveIcon),
-		title: __("Request Leave"),
-		route: "LeaveApplicationFormView",
 	},
 	{
 		icon: markRaw(ExpenseIcon),
@@ -136,6 +138,17 @@ const quickLinks = computed(() => [
 		icon: markRaw(SalaryIcon),
 		title: __("View Salary Slips"),
 		route: "SalarySlipsDashboard",
+	},
+	{
+		icon: markRaw(OrganigramIcon),
+		title: __("Organigram"),
+		route: "OrganigramView",
+		beta: true,
+	},
+	{
+		icon: markRaw(GuideIcon),
+		title: __("How this app works"),
+		route: "GuideView",
 	},
 ])
 </script>

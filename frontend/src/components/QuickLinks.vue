@@ -11,8 +11,9 @@
 			>
 				<div class="flex flex-row items-center gap-3 grow">
 					<component :is="link.icon" class="h-5 w-5 text-gray-500" />
-					<div class="text-base font-normal text-gray-800">
+					<div class="flex items-center gap-2 text-base font-normal text-gray-800">
 						{{ link.title }}
+						<span v-if="link.beta" class="rounded bg-gray-900 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">Beta</span>
 					</div>
 				</div>
 				<span v-if="link.badges?.length" class="mr-2 inline-flex items-center gap-1">

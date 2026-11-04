@@ -20,6 +20,13 @@
 							{{ displayName }}
 						</span>
 						<router-link
+							:to="{ name: 'GuideView' }"
+							class="flex flex-col items-center text-gray-300"
+							:aria-label="__('How this app works')"
+						>
+							<FeatherIcon name="help-circle" class="h-6 w-6" />
+						</router-link>
+						<router-link
 							:to="{ name: 'Notifications' }"
 							v-slot="{ navigate }"
 							class="flex flex-col items-center text-gray-300"

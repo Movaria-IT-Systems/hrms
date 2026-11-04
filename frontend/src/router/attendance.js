@@ -88,6 +88,16 @@ const routes = [
 		path: "/insights",
 		component: () => import("@/views/attendance/Insights.vue"),
 	},
+	{
+		name: "OrganigramView",
+		path: "/organigram",
+		component: () => import("@/views/attendance/Organigram.vue"),
+	},
+	{
+		name: "GuideView",
+		path: "/guide",
+		component: () => import("@/views/attendance/Guide.vue"),
+	},
 ]
 
 export default routes
